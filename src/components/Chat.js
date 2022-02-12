@@ -16,12 +16,13 @@ function Chat() {
   console.log(messages);
   const sendMessage = async (e) => {
     e.preventDefault();
-    const { uid, photoURL } = auth.currentUser;
+    const { uid, photoURL, displayName } = auth.currentUser;
     await messagesRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL,
+      displayName,
     });
 
     setFormValue("");
@@ -29,6 +30,8 @@ function Chat() {
       behavior: "smooth",
     });
   };
+
+  console.log(messages);
 
   return (
     <div className="bg-sky-500 w-screen h-screen grid grid-rows-6">
@@ -89,7 +92,7 @@ function Chat() {
           <div ref={fieldRef}></div>
         </main>
 
-        <form onSubmit={sendMessage} className="row-span-1 flex flex-col">
+        <form onSubmit={sendMessage} className="row-span-1 flex flex-col px-3">
           <div className="flex flex-row justify-between px-5 py-2 text-sky-500 gap-5 mt-2">
             <div className="hover:text-white hover:bg-sky-500 rounded-lg bg-gray-200 bg-opacity-25 w-full place-content-center grid py-2 transition ease-in-out duration-500 cursor-pointer">
               <svg
@@ -166,7 +169,7 @@ function Chat() {
               </svg>
             </div>
           </div>
-          <div className="self-end w-full h-[60%] bg-white flex flex-row items-center justify-between rounded-3xl px-2 shadow border-2 border-sky-400 pr-5 mb-2">
+          <div className="self-end w-full h-[60%]  flex flex-row items-center justify-between rounded-3xl pl-5 shadow border-2 border-sky-400 pr-5 bg-white py-3">
             <input
               type="text"
               onChange={(e) => setFormValue(e.target.value)}
@@ -174,13 +177,14 @@ function Chat() {
               className="w-full text-gray-600 font-light px-5 py-2 text-xl h-10 outline-0"
               placeholder="message here ..."
             />
-            <button type="submit">
+
+            <button type="submit" disabled={!formValue ? true : false}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 aria-hidden="true"
-                className="rotate-90 h-8 w-12 text-sky-500 cursor-pointer hover:text-sky-600 "
+                className="rotate-90 h-8 w-12 text-sky-500 cursor-pointer hover:text-sky-600 outline-none "
               >
                 <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
               </svg>
