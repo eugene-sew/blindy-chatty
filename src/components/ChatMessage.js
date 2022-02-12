@@ -19,9 +19,12 @@ function ChatMessage(props) {
             <p className="flex-wrap w-full">{text}</p>
           </div>
         </div>
-        <span class={`text-xs text-sky-800 absolute left-1 -bottom-4`}>
-          {displayName}
-        </span>
+
+        {uid !== auth.currentUser.uid && (
+          <span class={`text-xs text-sky-800 absolute left-1 -bottom-4`}>
+            {displayName}
+          </span>
+        )}
       </div>
     </div>
   );
