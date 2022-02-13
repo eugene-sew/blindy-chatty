@@ -36,7 +36,7 @@ function ChatMessage(props) {
             <img
               src={image}
               alt="sendimage"
-              className="w-full h-32 rounded-lg shadow-lg mr-5 object-cover "
+              className="w-[50%] h-32 rounded-lg shadow-lg mr-5 object-cover "
             />
           </a>
 
