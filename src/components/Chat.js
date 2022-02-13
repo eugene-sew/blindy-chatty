@@ -3,15 +3,18 @@ import { auth, db, firebase } from "../firebase";
 import Signout from "./Signout";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import ChatMessage from "./ChatMessage";
+import Camera from "./Camera";
 
 function Chat() {
   //   const [messages, setMessages] = useState([]);
 
   const messagesRef = db.collection("messages");
-  const query = messagesRef.orderBy("createdAt").limit(40);
+  const query = messagesRef.orderBy("createdAt").limit(200).limitToLast(40);
   const [messages] = useCollectionData(query, { idField: "id" });
   const [formValue, setFormValue] = useState("");
   const [show, setShow] = useState(false);
+  const [showcam, setShowCam] = useState(false);
+
   const fieldRef = useRef();
   console.log(messages);
   const sendMessage = async (e) => {
@@ -31,10 +34,30 @@ function Chat() {
     });
   };
 
-  console.log(messages);
+  function load() {
+    fieldRef.current.scrollIntoView({
+      behavior: "smooth",
+    });
+  }
+
+  const openCam = () => {
+    setShowCam(!showcam);
+    console.log("camera opened");
+  };
 
   return (
-    <div className="bg-sky-500 w-screen h-screen grid grid-rows-6">
+    <div
+      className="bg-sky-500 w-screen h-screen grid grid-rows-6"
+      onLoad={load}
+    >
+      <button
+        className={`bg-red-500 text-white w-fit h-fit px-5 py-5 rounded-lg shadow-lg absolute right-3 top-3 ${
+          !showcam ? "hidden" : "block"
+        } z-50`}
+        onClick={() => setShowCam(!showcam)}
+      >
+        close
+      </button>
       <div className="row-span-1 bg-sky-500 w-full h-full flex items-center justify-between">
         <div className="flex gap-5">
           <div className="relative">
@@ -85,7 +108,10 @@ function Chat() {
 
         <form onSubmit={sendMessage} className="row-span-1 flex flex-col px-3">
           <div className="flex flex-row justify-between px-5 py-2 text-sky-500 gap-5 mt-2">
-            <div className="hover:text-white hover:bg-sky-500 rounded-lg bg-gray-200 bg-opacity-25 w-full place-content-center grid py-2 transition ease-in-out duration-500 cursor-pointer">
+            <div
+              className="hover:text-white hover:bg-sky-500 rounded-lg bg-gray-200 bg-opacity-25 w-full place-content-center grid py-2 transition ease-in-out duration-500 cursor-pointer"
+              onClick={openCam}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -183,6 +209,8 @@ function Chat() {
           </div>
         </form>
       </div>
+
+      {showcam && <Camera showCam={showcam} />}
     </div>
   );
 }

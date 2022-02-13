@@ -6,6 +6,17 @@
   @apply w-fit h-fit px-3 py-2 rounded-3xl relative;
 }
 
+.messageImage {
+  @apply w-fit h-fit p-0 relative;
+}
+
+.recievedMI {
+  @apply justify-self-start;
+}
+
+.sentMI {
+  @apply justify-self-end;
+}
 .recieved {
   @apply justify-self-start bg-sky-200;
 }
