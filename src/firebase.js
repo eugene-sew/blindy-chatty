@@ -18,4 +18,4 @@ const analytics = getAnalytics(firebaseApp);
 const db = firebaseApp.firestore();
 const auth = firebase.auth();
 const storage = firebase.storage();
-export { auth, db, firebase, storage };
+export { auth, db, firebase, storage, analytics };
